@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Market — Услуги и товары</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Inter, Arial, sans-serif;
+      background: #0f172a;
+      color: #f8fafc;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      filter: blur(110px);
+      opacity: 0.35;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    body::before {
+      background: #8b5cf6;
+      top: -120px;
+      left: -130px;
+    }
+
+    body::after {
+      background: #ec4899;
+      bottom: -130px;
+      right: -100px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(15, 23, 42, 0.86);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .nav {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .logo-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #8b5cf6, #ec4899);
+      box-shadow: 0 0 35px rgba(236, 72, 153, 0.45);
+    }
+
+    .menu {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      color: #cbd5e1;
+      font-size: 15px;
+    }
+
+    .menu a {
+      transition: color 0.25s ease;
+    }
+
+    .menu a:hover {
+      color: #ffffff;
+    }
+
+    .nav-btn,
+    .hero-btn,
+    .secondary-btn {
+      border: none;
+      cursor: pointer;
+      color: #fff;
+      border-radius: 999px;
+      font-weight: 700;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .nav-btn,
+    .hero-btn {
+      background: linear-gradient(135deg, #8b5cf6, #ec4899);
+      box-shadow: 0 14px 34px rgba(139, 92, 246, 0.26);
+    }
+
+    .nav-btn {
+      padding: 12px 18px;
+    }
+
+    .nav-btn:hover,
+    .hero-btn:hover,
+    .secondary-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 44px rgba(236, 72, 153, 0.35);
+    }
+
+    .burger {
+      display: none;
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.04);
+      cursor: pointer;
+    }
+
+    .burger span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: #fff;
+      margin: 5px auto;
+      border-radius: 10px;
+      transition: 0.25s ease;
+    }
+
+    .hero {
+      padding: 96px 0 76px;
+      text-align: center;
+      position: relative;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 15px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.055);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #d8b4fe;
+      font-size: 14px;
+      margin-bottom: 26px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+
+    .hero h1 {
+      max-width: 860px;
+      margin: 0 auto;
+      font-size: clamp(44px, 7vw, 86px);
+      line-height: 0.98;
+      letter-spacing: -0.075em;
+      font-weight: 900;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #c4b5fd, #f9a8d4, #ffffff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin: 26px auto 36px;
+      color: #cbd5e1;
+      font-size: 19px;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero-btn,
+    .secondary-btn {
+      padding: 15px 24px;
+      font-size: 15px;
+    }
+
+    .secondary-btn {
+      background: rgba(255, 255, 255, 0.055);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: none;
+    }
+
+    .section {
+      padding: 82px 0;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 34px;
+    }
+
+    .section-title {
+      font-size: clamp(31px, 4vw, 52px);
+      line-height: 1.05;
+      letter-spacing: -0.055em;
+      font-weight: 900;
+    }
+
+    .section-text {
+      max-width: 470px;
+      color: #94a3b8;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, #111827, #0b1120);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      border-color: rgba(168, 85, 247, 0.75);
+      box-shadow: 0 30px 90px rgba(139, 92, 246, 0.22);
+    }
+
+    .card-img {
+      height: 205px;
+      overflow: hidden;
+      background: #1f2937;
+    }
+
+    .card-img img {
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.55s ease;
+    }
+
+    .card:hover .card-img img {
+      transform: scale(1.09);
+    }
+
+    .card-body {
+      padding: 22px;
+    }
+
+    .card-body h3 {
+      font-size: 21px;
+      margin-bottom: 9px;
+      letter-spacing: -0.025em;
+    }
+
+    .card-body p {
+      color: #94a3b8;
+      font-size: 14px;
+      min-height: 68px;
+    }
+
+    .price {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 19px;
+      color: #fff;
+      font-weight: 800;
+    }
+
+    .price span {
+      color: #f9a8d4;
+      font-size: 14px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .feature {
+      padding: 30px;
+      border-radius: 28px;
+      background: rgba(17, 24, 39, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .feature:hover {
+      transform: translateY(-8px);
+      border-color: rgba(236, 72, 153, 0.5);
+    }
+
+    .feature-number {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #8b5cf6, #ec4899);
+      font-weight: 900;
+      margin-bottom: 18px;
+      box-shadow: 0 14px 30px rgba(236, 72, 153, 0.25);
+    }
+
+    .feature h3 {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .feature p {
+      color: #94a3b8;
+    }
+
+    .cta {
+      margin: 50px 0 30px;
+      padding: 46px;
+      border-radius: 34px;
+      background: radial-gradient(circle at top left, rgba(139, 92, 246, 0.34), transparent 34%),
+                  linear-gradient(135deg, rgba(17, 24, 39, 0.94), rgba(31, 41, 55, 0.88));
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 25px;
+      box-shadow: 0 30px 100px rgba(0, 0, 0, 0.3);
+    }
+
+    .cta h2 {
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.05;
+      letter-spacing: -0.05em;
+    }
+
+    .cta p {
+      color: #cbd5e1;
+      margin-top: 10px;
+      max-width: 560px;
+    }
+
+    .footer {
+      padding: 34px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      color: #94a3b8;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px) scale(0.97);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    @media (max-width: 1024px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .burger {
+        display: block;
+      }
+
+      .menu {
+        position: absolute;
+        top: 76px;
+        left: 20px;
+        right: 20px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 16px;
+        background: #111827;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 22px;
+        transform: translateY(-20px) scale(0.98);
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.25s ease;
+      }
+
+      .menu.active {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
+      }
+
+      .menu a,
+      .menu .nav-btn {
+        width: 100%;
+        padding: 14px 16px;
+        text-align: left;
+      }
+
+      .section-head,
+      .cta {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .hero {
+        padding-top: 74px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .container {
+        width: min(100% - 24px, 1180px);
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 43px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .card-img {
+        height: 220px;
+      }
+
+      .cta {
+        padding: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container nav">
+      <a href="#home" class="logo">
+        <span class="logo-mark"></span>
+        <span>Digital Market</span>
+      </a>
+
+      <nav class="menu" id="menu">
+        <a href="#products">Товары</a>
+        <a href="#advantages">Преимущества</a>
+        <a href="#contact">Контакты</a>
+        <a class="nav-btn" href="#products">Смотреть каталог</a>
+      </nav>
+
+      <button class="burger" id="burger" aria-label="Открыть меню">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container reveal">
+        <div class="badge">Premium dark UI • WorldSkills Module 2</div>
+        <h1>Товары и услуги для <span class="gradient-text">цифровой жизни</span></h1>
+        <p>
+          Современный маркет техники и сервисов: ноутбуки, гаджеты, аксессуары и быстрая доставка в одном технологичном интерфейсе.
+        </p>
+        <div class="hero-actions">
+          <a href="#products" class="hero-btn">Перейти к товарам</a>
+          <a href="#advantages" class="secondary-btn">Почему выбирают нас</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="products">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2 class="section-title">Каталог товаров<br><span class="gradient-text">и услуг</span></h2>
+          <p class="section-text">Каждая карточка использует реальное фото, тёмную глубину, hover-подсветку и плавное увеличение изображения.</p>
+        </div>
+
+        <div class="grid">
+          <article class="card reveal">
+            <div class="card-img">
+              <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=80" alt="Современный ноутбук на столе" />
+            </div>
+            <div class="card-body">
+              <h3>Ноутбук ProBook</h3>
+              <p>Мощный ноутбук для учёбы, работы, дизайна и ежедневных задач с высокой производительностью.</p>
+              <div class="price"><strong>от 299 000 ₸</strong><span>В наличии</span></div>
+            </div>
+          </article>
+
+          <article class="card reveal">
+            <div class="card-img">
+              <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80" alt="Премиальные наушники" />
+            </div>
+            <div class="card-body">
+              <h3>Наушники Studio</h3>
+              <p>Беспроводные наушники с чистым звуком, мягкими амбушюрами и стильным премиальным видом.</p>
+              <div class="price"><strong>от 49 900 ₸</strong><span>Хит продаж</span></div>
+            </div>
+          </article>
+
+          <article class="card reveal">
+            <div class="card-img">
+              <img src="https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?auto=format&fit=crop&w=900&q=80" alt="Power bank для зарядки телефона" />
+            </div>
+            <div class="card-body">
+              <h3>Power Bank 20 000</h3>
+              <p>Компактный внешний аккумулятор для смартфона, планшета и аксессуаров в поездках.</p>
+              <div class="price"><strong>от 14 900 ₸</strong><span>Fast Charge</span></div>
+            </div>
+          </article>
+
+          <article class="card reveal">
+            <div class="card-img">
+              <img src="https://images.unsplash.com/photo-1580674285054-bed31e145f59?auto=format&fit=crop&w=900&q=80" alt="Доставка коробок курьером" />
+            </div>
+            <div class="card-body">
+              <h3>Быстрая доставка</h3>
+              <p>Курьерская доставка товаров по городу с аккуратной упаковкой и отслеживанием заказа.</p>
+              <div class="price"><strong>от 1 500 ₸</strong><span>1–2 дня</span></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="advantages">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2 class="section-title">Почему это выглядит<br><span class="gradient-text">дорого</span></h2>
+          <p class="section-text">Визуальный стиль отличается от светлой версии: здесь используется графитовая палитра, мягкая глубина и неоновый акцент.</p>
+        </div>
+
+        <div class="features">
+          <div class="feature reveal">
+            <div class="feature-number">01</div>
+            <h3>Чистый код</h3>
+            <p>Один HTML-файл без Bootstrap, Tailwind и сторонних библиотек. Всё открывается сразу.</p>
+          </div>
+          <div class="feature reveal">
+            <div class="feature-number">02</div>
+            <h3>Плавные эффекты</h3>
+            <p>Fade, scale, hover glow, увеличение фото и появление блоков при прокрутке страницы.</p>
+          </div>
+          <div class="feature reveal">
+            <div class="feature-number">03</div>
+            <h3>Адаптивность</h3>
+            <p>Сетка автоматически меняется под ноутбук, планшет и телефон, а меню превращается в бургер.</p>
+          </div>
+        </div>
+
+        <div class="cta reveal" id="contact">
+          <div>
+            <h2>Готовый сайт для демонстрации</h2>
+            <p>Открой файл в браузере — страница сразу работает, а дизайн выглядит как отдельный проект для друга.</p>
+          </div>
+          <a href="#home" class="hero-btn">Наверх</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p>© 2026 Digital Market. Услуги и товары.</p>
+      <p>HTML • CSS • JavaScript • One file</p>
+    </div>
+  </footer>
+
+  <script>
+    const burger = document.getElementById('burger');
+    const menu = document.getElementById('menu');
+
+    burger.addEventListener('click', () => {
+      menu.classList.toggle('active');
+    });
+
+    document.querySelectorAll('.menu a').forEach((link) => {
+      link.addEventListener('click', () => {
+        menu.classList.remove('active');
+      });
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.14
+    });
+
+    document.querySelectorAll('.reveal').forEach((element, index) => {
+      element.style.transitionDelay = `${Math.min(index * 70, 420)}ms`;
+      observer.observe(element);
+    });
+  </script>
+</body>
+</html>
